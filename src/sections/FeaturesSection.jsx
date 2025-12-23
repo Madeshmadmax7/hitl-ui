@@ -1,17 +1,13 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import CardSwap, { Card } from "../components/CardSwap";
 
-export default function NextSection() {
+export default function FeaturesSection() {
     return (
-        <section className="h-screen bg-black text-white px-6 overflow-hidden flex items-center">
+        <section className="h-screen bg-black text-white px-6 flex items-center">
             <div className="max-w-7xl mx-auto w-full flex flex-col justify-center gap-12">
-
-                {/* MAIN CONTENT */}
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-
-                    {/* LEFT CONTENT */}
                     <div className="space-y-10">
+                    <h2 className="text-[90px]">Features</h2>
                         {[
                             {
                                 num: "01",
@@ -44,27 +40,30 @@ export default function NextSection() {
                             </div>
                         ))}
                     </div>
-
-                    <div className="relative h-[620px] w-full flex justify-center items-center overflow-hidden">
-                        <CardSwap
-                            width={360}
-                            height={430}
-                            cardDistance={35}
-                            verticalDistance={45}
-                            delay={4000}
-                            pauseOnHover={false}
-                            easing="elastic"
-                        >
-                            {[1, 2, 3].map((i) => (
-                                <Card key={i}>
-                                    <img
-                                        src={`https://picsum.photos/400/600?random=${i}`}
-                                        alt={`card ${i}`}
-                                        className="w-full h-full object-cover rounded-xl"
-                                    />
-                                </Card>
-                            ))}
-                        </CardSwap>
+                    <div className="relative h-[520px] w-full flex justify-center items-start">
+                        <div className="w-full h-full relative grid grid-rows-3">
+                            <div className="flex justify-start">
+                                <img
+                                    src="https://picsum.photos/400?random=1"
+                                    alt="img1"
+                                    className="w-100 h-40 object-cover rounded-xl"
+                                />
+                            </div>
+                            <div className="flex justify-end">
+                                <img
+                                    src="https://picsum.photos/400?random=2"
+                                    alt="img2"
+                                    className="w-100 h-40 object-cover rounded-xl"
+                                />
+                            </div>
+                            <div className="flex justify-start">
+                                <img
+                                    src="https://picsum.photos/400?random=3"
+                                    alt="img3"
+                                    className="w-100 h-40 object-cover rounded-xl"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 

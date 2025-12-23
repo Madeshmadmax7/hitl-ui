@@ -34,10 +34,6 @@ export default function FAQSection() {
     return (
         <section className="py-24 px-6 bg-black">
             <div className="max-w-7xl mx-auto">
-                <button className="px-7 py-3 border-2 border-gray-600 rounded-full text-sm mb-16 hover:border-emerald-400 transition font-medium">
-                    Trending Classes
-                </button>
-
                 <div className="grid lg:grid-cols-2 gap-12">
                     {/* FAQs Column */}
                     <div>

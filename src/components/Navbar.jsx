@@ -38,7 +38,7 @@ export default function Navbar() {
     return (
         <nav className="relative flex items-center justify-between px-10 py-6 bg-black text-white">
             <h1 className="text-lg font-semibold tracking-widest whitespace-nowrap">
-                ✦ HITL <span className="text-gray-400">INFOTECH</span>
+                HITL <span className="text-gray-400 tracking-tighter">INFOTECH</span>
             </h1>
             <div className="flex items-center gap-8">
                 <div
