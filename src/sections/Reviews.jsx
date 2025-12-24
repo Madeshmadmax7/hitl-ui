@@ -39,20 +39,17 @@ export default function Reviews() {
     const total = reviews.length;
     const safeGet = (i) => (i >= 0 && i < total ? reviews[i] : null);
 
-    // Base depth look
     const baseStates = [
-        { opacity: 0.3, scale: 0.9 },  // far left
-        { opacity: 0.5, scale: 0.95 }, // left
-        { opacity: 1, scale: 1 },      // center
-        { opacity: 0.5, scale: 0.95 }, // right
-        { opacity: 0.3, scale: 0.9 },  // far right
+        { opacity: 0.3, scale: 0.9 },
+        { opacity: 0.5, scale: 0.95 },
+        { opacity: 1, scale: 1 },
+        { opacity: 0.5, scale: 0.95 },
+        { opacity: 0.3, scale: 0.9 },
     ];
 
-    // Apply instantly (first render)
     const applyDepth = () => {
-        const cards = cardRefs.current;
         baseStates.forEach((state, i) => {
-            if (cards[i]) gsap.set(cards[i], state);
+            if (cardRefs.current[i]) gsap.set(cardRefs.current[i], state);
         });
     };
 
@@ -60,7 +57,6 @@ export default function Reviews() {
         applyDepth();
     }, []);
 
-    // ⭐ SHIFT blur based on direction DURING slide
     const animateDepth = (dir) => {
         let target;
 
@@ -91,31 +87,44 @@ export default function Reviews() {
     };
 
     const slide = (dir) => {
-        if (isAnimating) return;
-        if (dir === "prev" && index <= 0) return;
-        if (dir === "next" && index >= total - 1) return;
+    if (isAnimating) return;
+    if (dir === "prev" && index <= 0) return;
+    if (dir === "next" && index >= total - 1) return;
 
-        setIsAnimating(true);
+    setIsAnimating(true);
 
-        const distance = 700;
-        const move = dir === "next" ? -distance : distance;
+    const distance = 700;
+    const move = dir === "next" ? -distance : distance;
 
-        animateDepth(dir);
+    const tl = gsap.timeline({
+        onComplete: () => {
+            setIndex(prev => dir === "next" ? prev + 1 : prev - 1);
+            gsap.set(stripRef.current, { x: 0 });
+            setTimeout(applyDepth, 10);
+            setIsAnimating(false);
+        }
+    });
 
-        gsap.to(stripRef.current, {
-            x: move,
-            duration: 1,
-            ease: "power3.out",
-            onComplete: () => {
-                setIndex((prev) => (dir === "next" ? prev + 1 : prev - 1));
+    // SLIDE + SCALE IN SAME TIMELINE
+    tl.to(stripRef.current, {
+        x: move,
+        duration: 1,
+        ease: "power3.out"
+    }, 0);
 
-                gsap.set(stripRef.current, { x: 0 });
-                setTimeout(applyDepth, 10);
+    const target =
+        dir === "next"
+            ? [baseStates[1], baseStates[2], baseStates[3], baseStates[4], baseStates[0]]
+            : [baseStates[4], baseStates[0], baseStates[1], baseStates[2], baseStates[3]];
 
-                setIsAnimating(false);
-            },
-        });
-    };
+    tl.to(cardRefs.current, {
+        opacity: (i) => target[i].opacity,
+        scale: (i) => target[i].scale,
+        duration: 1,
+        ease: "power3.out"
+    }, 0);
+};
+
 
     return (
         <section className="bg-black text-white px-6 py-20">
@@ -143,15 +152,18 @@ export default function Reviews() {
                 </div>
 
                 <div className="relative w-full overflow-hidden h-[350px]">
-                    <div
-                        ref={stripRef}
-                        className="flex items-center justify-center gap-10 absolute left-1/2 -translate-x-1/2"
-                    >
-                        <ReviewCard data={safeGet(index - 2)} ref={(el) => (cardRefs.current[0] = el)} />
-                        <ReviewCard data={safeGet(index - 1)} ref={(el) => (cardRefs.current[1] = el)} />
-                        <ReviewCard data={safeGet(index)} ref={(el) => (cardRefs.current[2] = el)} />
-                        <ReviewCard data={safeGet(index + 1)} ref={(el) => (cardRefs.current[3] = el)} />
-                        <ReviewCard data={safeGet(index + 2)} ref={(el) => (cardRefs.current[4] = el)} />
+                    <div className="absolute left-1/2 -translate-x-1/2">
+                        <div
+                            ref={stripRef}
+                            className="flex items-center justify-center gap-10"
+                        >
+                            <ReviewCard data={safeGet(index - 2)} ref={(el) => (cardRefs.current[0] = el)} />
+                            <ReviewCard data={safeGet(index - 1)} ref={(el) => (cardRefs.current[1] = el)} />
+                            <ReviewCard data={safeGet(index)} ref={(el) => (cardRefs.current[2] = el)} />
+                            <ReviewCard data={safeGet(index + 1)} ref={(el) => (cardRefs.current[3] = el)} />
+                            <ReviewCard data={safeGet(index + 2)} ref={(el) => (cardRefs.current[4] = el)} />
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 
 export default function Navbar() {
@@ -40,21 +41,17 @@ export default function Navbar() {
             <h1 className="text-lg font-semibold tracking-widest whitespace-nowrap">
                 HITL <span className="text-gray-400 tracking-tighter">INFOTECH</span>
             </h1>
+
             <div className="flex items-center gap-8">
                 <div
                     ref={linksRef}
                     className="flex items-center gap-8 text-sm tracking-widest uppercase"
                 >
-                    {["Home", "About", "Programs", "Research", "Contact"].map((item) => (
-                        <a
-                            key={item}
-                            href="#"
-                            className="text-white/80 hover:text-white transition"
-                            onClick={() => toggleMenu()}
-                        >
-                            {item}
-                        </a>
-                    ))}
+                    <Link to="/" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Home</Link>
+                    <Link to="/about" onClick={toggleMenu} className="text-white/80 hover:text-white transition">About</Link>
+                    <Link to="/programs" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Programs</Link>
+                    <Link to="/research" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Research</Link>
+                    <Link to="/contact" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Contact</Link>
                 </div>
 
                 <button
