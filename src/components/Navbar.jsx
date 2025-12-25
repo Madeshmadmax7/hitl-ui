@@ -15,25 +15,30 @@ export default function Navbar() {
         });
     }, []);
 
+    const openMenu = () => {
+        gsap.to(linksRef.current, {
+            x: 0,
+            opacity: 1,
+            duration: 0.5,
+            ease: "power3.out",
+            pointerEvents: "auto",
+        });
+        setOpen(true);
+    };
+
+    const closeMenu = () => {
+        gsap.to(linksRef.current, {
+            x: 60,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power3.in",
+            pointerEvents: "none",
+        });
+        setOpen(false);
+    };
+
     const toggleMenu = () => {
-        if (!open) {
-            gsap.to(linksRef.current, {
-                x: 0,
-                opacity: 1,
-                duration: 0.5,
-                ease: "power3.out",
-                pointerEvents: "auto",
-            });
-        } else {
-            gsap.to(linksRef.current, {
-                x: 60,
-                opacity: 0,
-                duration: 0.4,
-                ease: "power3.in",
-                pointerEvents: "none",
-            });
-        }
-        setOpen(!open);
+        open ? closeMenu() : openMenu();
     };
 
     return (
@@ -47,16 +52,16 @@ export default function Navbar() {
                     ref={linksRef}
                     className="flex items-center gap-8 text-sm tracking-widest uppercase"
                 >
-                    <Link to="/" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Home</Link>
-                    <Link to="/about" onClick={toggleMenu} className="text-white/80 hover:text-white transition">About</Link>
-                    <Link to="/programs" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Programs</Link>
-                    <Link to="/research" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Research</Link>
-                    <Link to="/contact" onClick={toggleMenu} className="text-white/80 hover:text-white transition">Contact</Link>
+                    <Link to="/" className="text-white/80 hover:text-white transition">Home</Link>
+                    <Link to="/about" className="text-white/80 hover:text-white transition">About</Link>
+                    <Link to="/programs" className="text-white/80 hover:text-white transition">Programs</Link>
+                    <Link to="/research" className="text-white/80 hover:text-white transition">Research</Link>
+                    <Link to="/contact" className="text-white/80 hover:text-white transition">Contact</Link>
                 </div>
 
                 <button
                     onClick={toggleMenu}
-                    className="border border-gray-500 rounded-full p-2 hover:border-white transition"
+                    className="border border-black border-2 rounded-full p-2 hover:border-white transition"
                 >
                     {open ? <X size={18} /> : <Menu size={18} />}
                 </button>
