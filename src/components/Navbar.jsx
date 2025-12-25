@@ -55,7 +55,7 @@ export default function Navbar() {
                     <Link to="/" className="text-white/80 hover:text-white transition">Home</Link>
                     <Link to="/about" className="text-white/80 hover:text-white transition">About</Link>
                     <Link to="/programs" className="text-white/80 hover:text-white transition">Programs</Link>
-                    <Link to="/research" className="text-white/80 hover:text-white transition">Research</Link>
+                    <Link to="/gallery" className="text-white/80 hover:text-white transition">Gallery</Link>
                     <Link to="/contact" className="text-white/80 hover:text-white transition">Contact</Link>
                 </div>
 

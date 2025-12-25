@@ -4,8 +4,7 @@ import Footer from "./components/Footer";
 
 import HomePage from "./pages/HomePage";
 import AboutUs from "./pages/AboutUs";
-// import ProgramsPage from "./pages/ProgramsPage";
-// import ResearchPage from "./pages/ResearchPage";
+import Gallery from "./pages/Gallery";
 import ContactUs from "./pages/ContactUs";
 
 export default function App() {
@@ -17,8 +16,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        {/* <Route path="/programs" element={<ProgramsPage />} />
-        <Route path="/research" element={<ResearchPage />} /> */}
+        {/* <Route path="/programs" element={<ProgramsPage />} />*/}
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
 
       <Footer />
