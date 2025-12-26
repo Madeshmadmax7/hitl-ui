@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { gsap } from "gsap";
+
+const CARD_WIDTH = 600;
+const GAP = 40; // gap-10 = 40px
 
 const reviews = [
     {
@@ -29,122 +31,108 @@ const reviews = [
     },
 ];
 
+const ReviewCard = React.memo(({ data, isActive }) => {
+    return (
+        <div
+            className={`w-[600px] bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-10
+            transition-all duration-500 ease-out
+            ${isActive ? "opacity-100 scale-100" : "opacity-40 scale-95"}`}
+        >
+            <p className="text-lg leading-relaxed mb-8">{data.quote}</p>
+
+            <div className="flex justify-between items-center">
+                <div className="flex items-center gap-4">
+                    <img src={data.img} alt={data.name} className="w-14 h-14 rounded-full" />
+                    <div>
+                        <h4 className="font-medium">{data.name}</h4>
+                        <p className="text-white/60 text-sm">{data.role}</p>
+                    </div>
+                </div>
+
+                <button className="flex items-center gap-2 text-white/70 hover:text-white">
+                    View Profile <ArrowRight size={18} />
+                </button>
+            </div>
+        </div>
+    );
+});
+
 export default function Reviews() {
-    const [index, setIndex] = useState(1);
-    const [isAnimating, setIsAnimating] = useState(false);
+    const carouselRef = useRef(null);
+    const [currentIndex, setCurrentIndex] = useState(1);
 
-    const stripRef = useRef(null);
-    const cardRefs = useRef([]);
+    const centerOnIndex = (index, smooth = true) => {
+        const el = carouselRef.current;
+        if (!el) return;
 
-    const total = reviews.length;
-    const safeGet = (i) => (i >= 0 && i < total ? reviews[i] : null);
+        const containerCenter = el.clientWidth / 2;
+        const cardCenter =
+            index * (CARD_WIDTH + GAP) + CARD_WIDTH / 2;
 
-    const baseStates = [
-        { opacity: 0.3, scale: 0.9 },
-        { opacity: 0.5, scale: 0.95 },
-        { opacity: 1, scale: 1 },
-        { opacity: 0.5, scale: 0.95 },
-        { opacity: 0.3, scale: 0.9 },
-    ];
-
-    const applyDepth = () => {
-        baseStates.forEach((state, i) => {
-            if (cardRefs.current[i]) gsap.set(cardRefs.current[i], state);
+        el.scrollTo({
+            left: cardCenter - containerCenter,
+            behavior: smooth ? "smooth" : "auto",
         });
     };
 
+    const handleScroll = () => {
+        const el = carouselRef.current;
+        if (!el) return;
+
+        const center = el.scrollLeft + el.clientWidth / 2;
+
+        let closestIndex = 0;
+        let minDistance = Infinity;
+
+        reviews.forEach((_, i) => {
+            const cardCenter =
+                i * (CARD_WIDTH + GAP) + CARD_WIDTH / 2;
+
+            const distance = Math.abs(center - cardCenter);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestIndex = i;
+            }
+        });
+
+        setCurrentIndex(closestIndex);
+    };
+
+    const scrollByOne = (dir) => {
+        const next =
+            dir === "left"
+                ? Math.max(0, currentIndex - 1)
+                : Math.min(reviews.length - 1, currentIndex + 1);
+
+        centerOnIndex(next);
+    };
+
+    // Center middle card on mount
     useEffect(() => {
-        applyDepth();
-    }, []);
-
-    const animateDepth = (dir) => {
-        let target;
-
-        if (dir === "next") {
-            target = [
-                baseStates[1],
-                baseStates[2],
-                baseStates[3],
-                baseStates[4],
-                baseStates[0],
-            ];
-        } else {
-            target = [
-                baseStates[4],
-                baseStates[0],
-                baseStates[1],
-                baseStates[2],
-                baseStates[3],
-            ];
-        }
-
-        gsap.to(cardRefs.current, {
-            opacity: (i) => target[i].opacity,
-            scale: (i) => target[i].scale,
-            duration: 1,
-            ease: "power3.out",
+        requestAnimationFrame(() => {
+            centerOnIndex(currentIndex, false);
         });
-    };
-
-    const slide = (dir) => {
-    if (isAnimating) return;
-    if (dir === "prev" && index <= 0) return;
-    if (dir === "next" && index >= total - 1) return;
-
-    setIsAnimating(true);
-
-    const distance = 700;
-    const move = dir === "next" ? -distance : distance;
-
-    const tl = gsap.timeline({
-        onComplete: () => {
-            setIndex(prev => dir === "next" ? prev + 1 : prev - 1);
-            gsap.set(stripRef.current, { x: 0 });
-            setTimeout(applyDepth, 10);
-            setIsAnimating(false);
-        }
-    });
-
-    // SLIDE + SCALE IN SAME TIMELINE
-    tl.to(stripRef.current, {
-        x: move,
-        duration: 1,
-        ease: "power3.out"
-    }, 0);
-
-    const target =
-        dir === "next"
-            ? [baseStates[1], baseStates[2], baseStates[3], baseStates[4], baseStates[0]]
-            : [baseStates[4], baseStates[0], baseStates[1], baseStates[2], baseStates[3]];
-
-    tl.to(cardRefs.current, {
-        opacity: (i) => target[i].opacity,
-        scale: (i) => target[i].scale,
-        duration: 1,
-        ease: "power3.out"
-    }, 0);
-};
-
+    }, []);
 
     return (
         <section className="bg-black text-white px-6 py-20">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-16">
-                    <h2 className="text-[60px] font-semibold">What people say about us!</h2>
+                    <h2 className="text-[60px] font-semibold">
+                        What people say about us!
+                    </h2>
 
                     <div className="flex gap-4">
                         <button
-                            onClick={() => slide("prev")}
-                            disabled={index <= 0 || isAnimating}
-                            className="p-2 rounded-full border border-white/40 disabled:opacity-30"
+                            onClick={() => scrollByOne("left")}
+                            className="p-2 rounded-full border border-white/40"
                         >
                             <ArrowLeft size={22} />
                         </button>
 
                         <button
-                            onClick={() => slide("next")}
-                            disabled={index >= total - 1 || isAnimating}
-                            className="p-2 rounded-full border border-white/40 disabled:opacity-30"
+                            onClick={() => scrollByOne("right")}
+                            className="p-2 rounded-full border border-white/40"
                         >
                             <ArrowRight size={22} />
                         </button>
@@ -152,48 +140,30 @@ export default function Reviews() {
                 </div>
 
                 <div className="relative w-full overflow-hidden h-[350px]">
-                    <div className="absolute left-1/2 -translate-x-1/2">
-                        <div
-                            ref={stripRef}
-                            className="flex items-center justify-center gap-10"
-                        >
-                            <ReviewCard data={safeGet(index - 2)} ref={(el) => (cardRefs.current[0] = el)} />
-                            <ReviewCard data={safeGet(index - 1)} ref={(el) => (cardRefs.current[1] = el)} />
-                            <ReviewCard data={safeGet(index)} ref={(el) => (cardRefs.current[2] = el)} />
-                            <ReviewCard data={safeGet(index + 1)} ref={(el) => (cardRefs.current[3] = el)} />
-                            <ReviewCard data={safeGet(index + 2)} ref={(el) => (cardRefs.current[4] = el)} />
-                        </div>
-
+                    <div
+                        ref={carouselRef}
+                        onScroll={handleScroll}
+                        className="flex items-center gap-10 overflow-x-auto scroll-smooth"
+                        style={{
+                            scrollbarWidth: "none",
+                            msOverflowStyle: "none",
+                        }}
+                    >
+                        {reviews.map((review, i) => (
+                            <div
+                                key={i}
+                                className="flex-shrink-0"
+                                style={{ width: CARD_WIDTH }}
+                            >
+                                <ReviewCard
+                                    data={review}
+                                    isActive={i === currentIndex}
+                                />
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
         </section>
     );
 }
-
-const ReviewCard = React.forwardRef(({ data }, ref) => {
-    if (!data) return <div ref={ref} className="w-[600px] opacity-0 scale-90"></div>;
-
-    return (
-        <div
-            ref={ref}
-            className="w-[600px] bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-10"
-        >
-            <p className="text-lg leading-relaxed mb-8">{data.quote}</p>
-
-            <div className="flex justify-between items-center">
-                <div className="flex items-center gap-4">
-                    <img src={data.img} className="w-14 h-14 rounded-full object-cover" />
-                    <div>
-                        <h4 className="font-medium">{data.name}</h4>
-                        <p className="text-white/60 text-sm">{data.role}</p>
-                    </div>
-                </div>
-
-                <button className="flex items-center gap-2 text-white/70 hover:text-white transition">
-                    View Profile <ArrowRight size={18} />
-                </button>
-            </div>
-        </div>
-    );
-});

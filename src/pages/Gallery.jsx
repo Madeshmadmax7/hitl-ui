@@ -1,7 +1,6 @@
 import { Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
-/* ---------- CATEGORIES ---------- */
 const categories = [
     "All",
     "Web Dev",
@@ -15,7 +14,6 @@ const categories = [
     "Internships",
 ];
 
-/* ---------- GALLERY DATA ---------- */
 const galleryItems = [
     {
         title: "Full Stack Web Project",
@@ -79,7 +77,6 @@ export default function Gallery() {
     const [search, setSearch] = useState("");
     const [selectedItem, setSelectedItem] = useState(null);
 
-    /* ---------- FILTER ---------- */
     const filteredItems = galleryItems.filter((item) => {
         const matchesCategory =
             activeCategory === "All" || item.category === activeCategory;
@@ -90,7 +87,6 @@ export default function Gallery() {
         return matchesCategory && matchesSearch;
     });
 
-    /* ---------- ESC TO CLOSE ---------- */
     useEffect(() => {
         const esc = (e) => e.key === "Escape" && setSelectedItem(null);
         window.addEventListener("keydown", esc);
@@ -100,7 +96,6 @@ export default function Gallery() {
     return (
         <div className="bg-black text-white font-outfit min-h-screen">
 
-            {/* ---------- TOP BAR ---------- */}
             <section className="px-6 pt-6 max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between">
                     <h1 className="text-[36px] font-semibold tracking-tight">
@@ -142,7 +137,6 @@ export default function Gallery() {
                 </div>
             </section>
 
-            {/* ---------- GRID ---------- */}
             <section className="px-6 py-16 max-w-7xl mx-auto">
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
                     {filteredItems.map((item, i) => (
@@ -174,8 +168,6 @@ export default function Gallery() {
                     ))}
                 </div>
             </section>
-
-            {/* ---------- MODAL ---------- */}
             {selectedItem && (
                 <div
                     className="fixed inset-0 z-50 bg-black/80
