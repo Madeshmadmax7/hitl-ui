@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-
-const CARD_WIDTH = 600;
-const GAP = 40; // gap-10 = 40px
+// import './App.css';
+/* RESPONSIVE WIDTH USING CSS CLAMP */
+const CARD_WIDTH = "clamp(280px, 80vw, 600px)";
+const GAP = 40;
 
 const reviews = [
     {
@@ -34,23 +35,35 @@ const reviews = [
 const ReviewCard = React.memo(({ data, isActive }) => {
     return (
         <div
-            className={`w-[600px] bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-10
-            transition-all duration-500 ease-out
-            ${isActive ? "opacity-100 scale-100" : "opacity-40 scale-95"}`}
+            style={{ width: CARD_WIDTH }}
+            className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl
+            p-6 sm:p-8 md:p-10 transition-all duration-500 ease-out
+            contain-paint
+            ${isActive ? "opacity-100" : "opacity-40"}`}
         >
-            <p className="text-lg leading-relaxed mb-8">{data.quote}</p>
+            <p className="text-sm sm:text-base md:text-lg leading-relaxed mb-6 sm:mb-8">
+                {data.quote}
+            </p>
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <img src={data.img} alt={data.name} className="w-14 h-14 rounded-full" />
+                    <img
+                        src={data.img}
+                        alt={data.name}
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full"
+                    />
                     <div>
-                        <h4 className="font-medium">{data.name}</h4>
-                        <p className="text-white/60 text-sm">{data.role}</p>
+                        <h4 className="font-medium text-sm sm:text-base">
+                            {data.name}
+                        </h4>
+                        <p className="text-white/60 text-xs sm:text-sm">
+                            {data.role}
+                        </p>
                     </div>
                 </div>
 
-                <button className="flex items-center gap-2 text-white/70 hover:text-white">
-                    View Profile <ArrowRight size={18} />
+                <button className="hidden sm:flex items-center gap-2 text-white/70 hover:text-white text-sm">
+                    View Profile <ArrowRight size={16} />
                 </button>
             </div>
         </div>
@@ -65,9 +78,13 @@ export default function Reviews() {
         const el = carouselRef.current;
         if (!el) return;
 
+        const cards = el.children;
+        const card = cards[index];
+        if (!card) return;
+
         const containerCenter = el.clientWidth / 2;
         const cardCenter =
-            index * (CARD_WIDTH + GAP) + CARD_WIDTH / 2;
+            card.offsetLeft + card.offsetWidth / 2;
 
         el.scrollTo({
             left: cardCenter - containerCenter,
@@ -80,15 +97,14 @@ export default function Reviews() {
         if (!el) return;
 
         const center = el.scrollLeft + el.clientWidth / 2;
-
         let closestIndex = 0;
         let minDistance = Infinity;
 
-        reviews.forEach((_, i) => {
+        Array.from(el.children).forEach((child, i) => {
             const cardCenter =
-                i * (CARD_WIDTH + GAP) + CARD_WIDTH / 2;
-
+                child.offsetLeft + child.offsetWidth / 2;
             const distance = Math.abs(center - cardCenter);
+
             if (distance < minDistance) {
                 minDistance = distance;
                 closestIndex = i;
@@ -107,7 +123,6 @@ export default function Reviews() {
         centerOnIndex(next);
     };
 
-    // Center middle card on mount
     useEffect(() => {
         requestAnimationFrame(() => {
             centerOnIndex(currentIndex, false);
@@ -115,10 +130,12 @@ export default function Reviews() {
     }, []);
 
     return (
-        <section className="bg-black text-white px-6 py-20">
+        <section className="bg-black text-white px-4 sm:px-6 py-16 sm:py-20 overflow-x-hidden">
             <div className="max-w-7xl mx-auto">
-                <div className="flex justify-between items-center mb-16">
-                    <h2 className="text-[60px] font-semibold">
+
+                {/* HEADER */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6 mb-10 sm:mb-16">
+                    <h2 className="text-[28px] sm:text-[40px] md:text-[60px] font-semibold">
                         What people say about us!
                     </h2>
 
@@ -127,33 +144,30 @@ export default function Reviews() {
                             onClick={() => scrollByOne("left")}
                             className="p-2 rounded-full border border-white/40"
                         >
-                            <ArrowLeft size={22} />
+                            <ArrowLeft size={20} />
                         </button>
 
                         <button
                             onClick={() => scrollByOne("right")}
                             className="p-2 rounded-full border border-white/40"
                         >
-                            <ArrowRight size={22} />
+                            <ArrowRight size={20} />
                         </button>
                     </div>
                 </div>
 
-                <div className="relative w-full overflow-hidden h-[350px]">
+                {/* CAROUSEL */}
+                <div className="relative w-full h-[260px] sm:h-[300px] md:h-[350px]">
                     <div
                         ref={carouselRef}
                         onScroll={handleScroll}
-                        className="flex items-center gap-10 overflow-x-auto scroll-smooth"
-                        style={{
-                            scrollbarWidth: "none",
-                            msOverflowStyle: "none",
-                        }}
+                        className="flex items-center gap-10 overflow-x-auto scroll-smooth no-scrollbar will-change-transform"
                     >
+
                         {reviews.map((review, i) => (
                             <div
                                 key={i}
-                                className="flex-shrink-0"
-                                style={{ width: CARD_WIDTH }}
+                                className="flex-shrink-0 overflow-hidden"
                             >
                                 <ReviewCard
                                     data={review}
@@ -163,6 +177,7 @@ export default function Reviews() {
                         ))}
                     </div>
                 </div>
+
             </div>
         </section>
     );

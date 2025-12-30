@@ -22,20 +22,20 @@ export default function Events() {
     return (
         <section
             ref={sectionRef}
-            className="px-6 py-28 max-w-7xl mx-auto"
+            className="px-4 sm:px-6 py-16 sm:py-24 lg:py-28 max-w-7xl mx-auto overflow-x-hidden"
         >
             <p className="uppercase tracking-[0.3em] text-emerald-300 text-xs mb-4">
                 Programs & Events
             </p>
 
-            <h1 className="text-[44px] md:text-[64px] font-semibold leading-tight mb-16">
+            <h1 className="text-[28px] sm:text-[40px] md:text-[52px] lg:text-[64px]
+                           font-semibold leading-tight mb-10 sm:mb-16">
                 Build Skills. Gain Experience.
                 <br />
                 <span className="text-emerald-300">Shape Your Future.</span>
             </h1>
 
-            <div className="grid md:grid-cols-2 gap-10">
-
+            <div className="grid md:grid-cols-2 gap-6 sm:gap-10">
                 <EventCard
                     title="Free Internship Program on Python"
                     date="Last Date: 15th January 2026"
@@ -55,19 +55,33 @@ export default function Events() {
 function EventCard({ title, date, desc }) {
     return (
         <div
-            className="group relative bg-white/5 border border-white/10 rounded-3xl p-8
-            hover:-translate-y-2 transition-all duration-300 overflow-hidden"
+            className="group relative bg-white/5 border border-white/10 rounded-3xl
+                       p-6 sm:p-8
+                       hover:-translate-y-2 transition-all duration-300
+                       overflow-hidden"
         >
-            <div className="absolute -top-20 -right-20 w-52 h-52 bg-emerald-400/15 rounded-full blur-3xl" />
+            {/* SAFE GLOW */}
+            <div
+                className="absolute top-0 right-0
+                           w-40 h-40 sm:w-52 sm:h-52
+                           bg-emerald-400/15 rounded-full blur-3xl
+                           pointer-events-none"
+            />
 
             <div className="relative z-10">
-                <Calendar className="text-emerald-300 mb-6" size={28} />
+                <Calendar className="text-emerald-300 mb-4 sm:mb-6" size={26} />
 
-                <h3 className="text-[24px] font-semibold mb-3">{title}</h3>
+                <h3 className="text-[18px] sm:text-[22px] md:text-[24px] font-semibold mb-3">
+                    {title}
+                </h3>
 
-                <p className="text-white/60 mb-4">{desc}</p>
+                <p className="text-white/60 text-sm sm:text-base mb-4">
+                    {desc}
+                </p>
 
-                <p className="text-sm text-emerald-300 mb-6">{date}</p>
+                <p className="text-sm text-emerald-300 mb-6">
+                    {date}
+                </p>
 
                 <button className="flex items-center gap-2 text-sm text-white/80 group-hover:text-white transition">
                     Learn More <ArrowRight size={16} />

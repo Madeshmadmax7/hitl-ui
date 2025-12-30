@@ -65,8 +65,6 @@ const services = [
     },
 ];
 
-
-
 export default function Services() {
     const [openIndex, setOpenIndex] = useState(null);
     const cardRefs = useRef([]);
@@ -80,16 +78,14 @@ export default function Services() {
             return;
         }
 
-        if (prev !== null) {
-            closeCard(prev);
-        }
-
+        if (prev !== null) closeCard(prev);
         openCard(index);
         setOpenIndex(index);
     };
 
     const openCard = (index) => {
         const c = cardRefs.current[index];
+        if (!c) return;
 
         const tl = gsap.timeline();
 
@@ -117,11 +113,15 @@ export default function Services() {
             "-=0.2"
         );
 
+        // SAFE ARROW MOVEMENT FOR ALL SCREEN SIZES
+        const safeX = Math.max(0, c.width - 60);
+        const safeY = Math.min(0, -c.height + 60);
+
         tl.to(
             c.arrow,
             {
-                x: c.width - 60,
-                y: -c.height + 60,
+                x: safeX,
+                y: safeY,
                 rotate: -180,
                 duration: 0.55,
                 ease: "power3.out",
@@ -132,6 +132,7 @@ export default function Services() {
 
     const closeCard = (index) => {
         const c = cardRefs.current[index];
+        if (!c) return;
 
         const tl = gsap.timeline();
 
@@ -176,11 +177,13 @@ export default function Services() {
     };
 
     return (
-        <section className="bg-black text-white px-6 py-24">
+        <section className="bg-black text-white px-4 sm:px-6 py-16 sm:py-24 overflow-x-hidden">
             <div className="max-w-6xl mx-auto">
-                <h2 className="text-[48px] font-semibold mb-12">Services</h2>
+                <h2 className="text-[28px] sm:text-[36px] md:text-[48px] font-semibold mb-8 sm:mb-12">
+                    Services
+                </h2>
 
-                <div className="grid md:grid-cols-2 gap-10">
+                <div className="grid md:grid-cols-2 gap-6 sm:gap-10">
                     {services.map((s, i) => (
                         <ServiceCard
                             key={i}
@@ -204,7 +207,6 @@ const ServiceCard = React.forwardRef(({ data, index, onClick }, ref) => {
     const imgRef = useRef(null);
     const contentRef = useRef(null);
 
-    // EXPOSE ALL ELEMENTS TO PARENT USING useImperativeHandle
     useImperativeHandle(ref, () => ({
         overlay: overlayRef.current,
         arrow: arrowRef.current,
@@ -223,30 +225,35 @@ const ServiceCard = React.forwardRef(({ data, index, onClick }, ref) => {
         <div
             ref={wrapperRef}
             onClick={() => onClick(index)}
-            className="relative rounded-3xl border border-white/10 bg-white/5 overflow-hidden p-7 min-h-[220px] cursor-pointer"
+            className="relative rounded-3xl border border-white/10 bg-white/5
+                        overflow-hidden cursor-pointer
+                        p-5 sm:p-7
+                        min-h-[180px] sm:min-h-[220px]"
         >
-
             <ArrowUpRight
                 ref={arrowRef}
-                className="absolute bottom-5 left-5 text-white z-30"
-                size={22}
+                className="absolute bottom-4 left-4 text-white z-30"
+                size={20}
             />
 
             <div
                 ref={overlayRef}
-                className="absolute inset-0 bg-emerald-400 origin-bottom-left scale-0 rounded-3xl z-20"
+                className="absolute inset-0 bg-emerald-400 origin-bottom-left
+                            scale-0 rounded-3xl z-20"
             />
 
-            <div className="relative z-30 flex justify-between items-center">
+            <div className="relative z-30 flex justify-between items-center gap-4">
                 <h3
                     ref={titleRef}
-                    className="text-[22px] font-semibold max-w-[55%] leading-snug self-center"
+                    className="text-[16px] sm:text-[18px] md:text-[22px]
+                                font-semibold max-w-[60%] leading-snug"
                 >
                     {data.title}
                 </h3>
 
-                {/* FIXED HEIGHT IMAGE CONTAINER */}
-                <div className="flex items-center justify-center h-[120px] max-w-[32%]">
+                <div className="flex items-center justify-center
+                                h-[80px] sm:h-[120px]
+                                max-w-[35%]">
                     <img
                         ref={imgRef}
                         src={data.img}
@@ -256,10 +263,12 @@ const ServiceCard = React.forwardRef(({ data, index, onClick }, ref) => {
                 </div>
             </div>
 
-
             <div
                 ref={contentRef}
-                className="absolute inset-0 z-30 opacity-0 flex items-center p-8 text-black text-[16px] leading-relaxed"
+                className="absolute inset-0 z-30 opacity-0
+                            flex items-center p-6 sm:p-8
+                            text-black text-[14px] sm:text-[16px]
+                            leading-relaxed"
             >
                 {data.content}
             </div>

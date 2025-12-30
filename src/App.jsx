@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import './App.css';
 import HomePage from "./pages/HomePage";
 import AboutUs from "./pages/AboutUs";
 import Gallery from "./pages/Gallery";
@@ -10,7 +10,7 @@ import Programs from "./pages/Pages";
 
 export default function App() {
   return (
-    <>
+    <div className="min-h-screen overflow-x-hidden">
       <Navbar />
 
       <Routes>
@@ -22,6 +22,6 @@ export default function App() {
       </Routes>
 
       <Footer />
-    </>
+    </div>
   );
 }

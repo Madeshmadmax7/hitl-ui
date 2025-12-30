@@ -94,11 +94,12 @@ export default function Gallery() {
     }, []);
 
     return (
-        <div className="bg-black text-white font-outfit min-h-screen">
+        <div className="bg-black text-white font-outfit min-h-screen overflow-x-hidden mt-8 no-scrollbar">
 
-            <section className="px-6 pt-6 max-w-7xl mx-auto">
+            {/* HEADER */}
+            <section className="px-4 sm:px-6 pt-6 max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between">
-                    <h1 className="text-[36px] font-semibold tracking-tight">
+                    <h1 className="text-[28px] sm:text-[36px] font-semibold tracking-tight">
                         Gallery
                     </h1>
 
@@ -119,12 +120,13 @@ export default function Gallery() {
                     </div>
                 </div>
 
-                <div className="mt-10 flex gap-4 overflow-x-auto pb-2">
+                {/* CATEGORIES */}
+                <div className="mt-8 flex gap-3 sm:gap-4 overflow-x-auto pb-2 no-scrollbar">
                     {categories.map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
-                            className={`px-5 py-2 rounded-full text-sm whitespace-nowrap transition
+                            className={`px-4 sm:px-5 py-2 rounded-full text-sm whitespace-nowrap transition
                             ${
                                 activeCategory === cat
                                     ? "bg-emerald-400 text-black"
@@ -137,8 +139,9 @@ export default function Gallery() {
                 </div>
             </section>
 
-            <section className="px-6 py-16 max-w-7xl mx-auto">
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* GRID */}
+            <section className="px-4 sm:px-6 py-12 sm:py-16 max-w-7xl mx-auto">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
                     {filteredItems.map((item, i) => (
                         <div
                             key={i}
@@ -147,7 +150,7 @@ export default function Gallery() {
                             bg-white/5 border border-white/10
                             hover:-translate-y-2 transition duration-300"
                         >
-                            <div className="h-[220px] overflow-hidden">
+                            <div className="h-[180px] sm:h-[220px] overflow-hidden">
                                 <img
                                     src={item.img}
                                     alt={item.title}
@@ -156,11 +159,11 @@ export default function Gallery() {
                                 />
                             </div>
 
-                            <div className="p-6">
+                            <div className="p-5 sm:p-6">
                                 <p className="text-xs uppercase tracking-widest text-emerald-300 mb-2">
                                     {item.category}
                                 </p>
-                                <h3 className="text-[18px] font-medium">
+                                <h3 className="text-[16px] sm:text-[18px] font-medium">
                                     {item.title}
                                 </h3>
                             </div>
@@ -168,6 +171,8 @@ export default function Gallery() {
                     ))}
                 </div>
             </section>
+
+            {/* MODAL */}
             {selectedItem && (
                 <div
                     className="fixed inset-0 z-50 bg-black/80
@@ -189,14 +194,14 @@ export default function Gallery() {
 
                         <img
                             src={selectedItem.img}
-                            className="w-full h-[420px] object-cover"
+                            className="w-full h-[260px] sm:h-[420px] object-cover"
                         />
 
-                        <div className="p-8">
+                        <div className="p-6 sm:p-8">
                             <p className="text-xs uppercase tracking-widest text-emerald-300 mb-2">
                                 {selectedItem.category}
                             </p>
-                            <h2 className="text-[26px] font-semibold">
+                            <h2 className="text-[22px] sm:text-[26px] font-semibold">
                                 {selectedItem.title}
                             </h2>
                         </div>

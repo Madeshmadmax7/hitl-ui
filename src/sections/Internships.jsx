@@ -78,18 +78,18 @@ export default function Internships() {
     }, []);
 
     return (
-        <section className="px-6 py-28 max-w-7xl mx-auto">
-            <h2 className="text-[42px] font-semibold mb-6">
+        <section className="px-4 sm:px-6 py-16 sm:py-24 lg:py-28 max-w-7xl mx-auto overflow-x-hidden">
+            <h2 className="text-[28px] sm:text-[36px] md:text-[42px] font-semibold mb-4 sm:mb-6">
                 Internship Domains
             </h2>
 
-            <p className="text-white/60 max-w-3xl mb-16">
+            <p className="text-white/60 max-w-3xl mb-10 sm:mb-16 text-sm sm:text-base">
                 Industry-aligned internships with real-time projects and expert mentorship.
             </p>
 
             <div
                 ref={gridRef}
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
                 {internships.map((item, i) => {
                     const Icon = item.icon;
@@ -101,7 +101,7 @@ export default function Internships() {
                             overflow-hidden hover:-translate-y-3 transition-all duration-300"
                         >
                             {/* IMAGE */}
-                            <div className="h-[200px] overflow-hidden">
+                            <div className="h-[160px] sm:h-[200px] overflow-hidden">
                                 <img
                                     src={item.img}
                                     alt={item.title}
@@ -111,13 +111,13 @@ export default function Internships() {
                             </div>
 
                             {/* CONTENT */}
-                            <div className="p-7">
+                            <div className="p-5 sm:p-7">
                                 <Icon
-                                    size={30}
-                                    className="text-emerald-300 mb-4"
+                                    size={28}
+                                    className="text-emerald-300 mb-3 sm:mb-4"
                                 />
 
-                                <h3 className="text-[20px] font-semibold mb-2">
+                                <h3 className="text-[18px] sm:text-[20px] font-semibold mb-2">
                                     {item.title}
                                 </h3>
 
