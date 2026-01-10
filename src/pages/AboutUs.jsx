@@ -10,6 +10,12 @@ import {
     Lightbulb,
     Wrench,
 } from "lucide-react";
+import img1 from "../assets/images/Khaiser.png";
+import img14 from "../assets/images/img14.jpg";
+import iso from "../assets/images/iso.png";
+import msme from "../assets/images/msme.png";
+import mca from "../assets/images/mca.png";
+
 
 export default function AboutUs() {
     const features = [
@@ -51,7 +57,7 @@ export default function AboutUs() {
                 <div className="md:col-span-6">
                     <img
                         className="rounded-2xl w-full object-cover h-[240px] sm:h-[320px] md:h-[400px]"
-                        src="https://images.unsplash.com/photo-1581092795360-1b231f3873c8?w=900"
+                        src={img14}
                         alt=""
                     />
                 </div>
@@ -70,14 +76,14 @@ export default function AboutUs() {
                         <Stat value="45+" label="Awards & Honors" />
                     </div>
 
-                    <div className="flex items-center gap-4 mt-8 sm:mt-10">
+                    {/* <div className="flex items-center gap-4 mt-8 sm:mt-10">
                         <button className="h-12 w-12 flex items-center justify-center rounded-full border border-white/20 hover:border-white transition">
                             <Play size={18} />
                         </button>
                         <span className="text-white/70 tracking-wide text-sm sm:text-base">
                             WATCH INTRO
                         </span>
-                    </div>
+                    </div> */}
                 </div>
             </section>
 
@@ -102,19 +108,17 @@ export default function AboutUs() {
                 </div>
             </section>
 
-            {/* CERTIFICATIONS */}
             <section className="px-4 sm:px-6 py-16 sm:py-20 max-w-7xl mx-auto">
                 <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-semibold mb-8 sm:mb-10">
                     We Are <span className="text-emerald-300">Certified</span>
                 </h2>
                 <div className="flex flex-wrap gap-10 sm:gap-16 items-center">
-                    <Cert logo="/logos/iso.png" title="ISO Certified" />
-                    <Cert logo="/logos/msme.png" title="MSME Registered" />
-                    <Cert logo="/logos/mca.png" title="MCA Approved" />
+                    <Cert logo={iso} title="ISO Certified" />
+                    <Cert logo={msme} title="MSME Registered" />
+                    <Cert logo={mca} title="MCA Approved" />
                 </div>
             </section>
 
-            {/* FEATURES */}
             <section className="px-4 sm:px-6 py-16 sm:py-24 max-w-7xl mx-auto">
                 <h2 className="text-[28px] sm:text-[36px] md:text-[42px] font-semibold mb-10 sm:mb-14 tracking-tight">
                     Why <span className="text-emerald-300">Choose Us?</span>
@@ -140,7 +144,6 @@ export default function AboutUs() {
                 </div>
             </section>
 
-            {/* FOUNDER */}
             <section className="px-4 sm:px-6 py-16 sm:py-20 max-w-6xl mx-auto">
                 <h2 className="text-[28px] sm:text-[36px] md:text-[42px] font-semibold mb-8 sm:mb-10 tracking-tight">
                     Meet Our <span className="text-emerald-300">Founder</span>
@@ -152,7 +155,7 @@ export default function AboutUs() {
                         bg-emerald-400/20 blur-3xl rounded-full pointer-events-none"></div>
 
                     <img
-                        src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?w=700"
+                        src={img1}
                         alt="Founder"
                         className="w-[160px] sm:w-[180px] h-[160px] sm:h-[180px] object-cover rounded-2xl border border-white/10 shadow-xl"
                     />

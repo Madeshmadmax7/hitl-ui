@@ -1,6 +1,32 @@
 import { Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
+import img1 from "../assets/images/img1.png";
+import img2 from "../assets/images/img2.png";
+import img3 from "../assets/images/img3.png";
+import img4 from "../assets/images/img4.png";
+import img5 from "../assets/images/img5.png";
+import img6 from "../assets/images/img6.jpg";
+import img7 from "../assets/images/img7.jpg";
+import img8 from "../assets/images/img8.jpg";
+import img9 from "../assets/images/img9.jpg";
+import img10 from "../assets/images/img10.jpg";
+import img11 from "../assets/images/img11.jpg";
+import img12 from "../assets/images/img12.jpg";
+import img13 from "../assets/images/img13.jpg";
+import img14 from "../assets/images/img14.jpg";
+import img15 from "../assets/images/img15.jpg";
+import img16 from "../assets/images/img16.jpg";
+import img17 from "../assets/images/img17.jpg";
+import img18 from "../assets/images/img18.jpg";
+import img19 from "../assets/images/img19.jpg";
+import img20 from "../assets/images/img20.jpg";
+import img21 from "../assets/images/img21.jpg";
+import img22 from "../assets/images/img22.jpg";
+import img23 from "../assets/images/img23.jpg";
+import img24 from "../assets/images/img24.jpg";
+import img25 from "../assets/images/img25.jpg";
+
 const categories = [
     "All",
     "Web Dev",
@@ -8,68 +34,38 @@ const categories = [
     "Hackathon",
     "Live Sessions",
     "Robotics",
-    "PCB",
-    "IoT",
     "Workshops",
-    "Internships",
+    "Power BI",
+    "Training",
+    "Events",
 ];
 
 const galleryItems = [
-    {
-        title: "Full Stack Web Project",
-        category: "Web Dev",
-        img: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=800",
-    },
-    {
-        title: "React Admin Dashboard",
-        category: "Web Dev",
-        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800",
-    },
-    {
-        title: "E-Commerce Website Development",
-        category: "Web Dev",
-        img: "https://images.unsplash.com/photo-1545235617-9465d2a55698?w=800",
-    },
-    {
-        title: "Data Analytics Dashboard",
-        category: "Data Scientist",
-        img: "https://images.unsplash.com/photo-1556155092-8707de31f9c4?w=800",
-    },
-    {
-        title: "Machine Learning Model Training",
-        category: "Data Scientist",
-        img: "https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=800",
-    },
-    {
-        title: "National Level Hackathon",
-        category: "Hackathon",
-        img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800",
-    },
-    {
-        title: "Live Coding Session",
-        category: "Live Sessions",
-        img: "https://images.unsplash.com/photo-1581092919535-7146d98f66d9?w=800",
-    },
-    {
-        title: "Autonomous Robot Build",
-        category: "Robotics",
-        img: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800",
-    },
-    {
-        title: "Custom PCB Design",
-        category: "PCB",
-        img: "https://images.unsplash.com/photo-1581092795360-1b231f3873c8?w=800",
-    },
-    {
-        title: "IoT Smart Home System",
-        category: "IoT",
-        img: "https://images.unsplash.com/photo-1581090700227-1e37b190418e?w=800",
-    },
-    {
-        title: "Certified Internship Program",
-        category: "Internships",
-        img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800",
-    },
+    { title: "Live Hands On Experience Session on Robotics", category: "Robotics", img: img16 },
+    { title: "Hands On Session at CMR College", category: "Workshops", img: img7 },
+    { title: "Hackathon at SCIENT College", category: "Hackathon", img: img15 },
+    { title: "Web Development Training Session at Malla Reddy Women's College", category: "Web Dev", img: img14 },
+    { title: "Skill Development Program at CMR College", category: "Training", img: img13 },
+    { title: "Project Explanation to Students", category: "Training", img: img6 },
+    { title: "Real Time Projects Execution", category: "Training", img: img8 },
+    { title: "Web Development Training at MRWC", category: "Web Dev", img: img8 },
+    { title: "Data Analytics at SCIENT", category: "Data Scientist", img: img9 },
+    { title: "Live Session on Power BI", category: "Power BI", img: img10 },
+    { title: "Live Workshop on Power BI", category: "Power BI", img: img11 },
+    { title: "Power BI Workshop at SCIENT College", category: "Power BI", img: img12 },
+    { title: "Live Interaction Session", category: "Live Sessions", img: img13 },
+    { title: "Hackathon on Power BI", category: "Hackathon", img: img14 },
+    { title: "Live Hands On Training Session on Data Analytics", category: "Data Scientist", img: img15 },
+    { title: "Skill Development Program at Govt. Junior College", category: "Training", img: img16 },
+    { title: "Digital Citizen Summit at T-Hub", category: "Events", img: img17 },
+    { title: "Session at T-Hub", category: "Events", img: img18 },
+    { title: "Session at T-Hub", category: "Events", img: img19 },
+    { title: "Session at T-Hub", category: "Events", img: img20 },
+    { title: "With Dr. G. Satheesh Reddy Sir (DRDO Chairman)", category: "Events", img: img21 },
+    { title: "Maker Fair at T-Works", category: "Events", img: img22 },
+    { title: "Makers Fair Hyderabad at T-Works", category: "Events", img: img23 },
+    { title: "Hands On Robotics Training Program", category: "Robotics", img: img24 },
+    { title: "Advanced Robotics Workshop", category: "Robotics", img: img25 },
 ];
 
 export default function Gallery() {
@@ -83,7 +79,6 @@ export default function Gallery() {
         const matchesSearch = item.title
             .toLowerCase()
             .includes(search.toLowerCase());
-
         return matchesCategory && matchesSearch;
     });
 
@@ -150,15 +145,23 @@ export default function Gallery() {
                             bg-white/5 border border-white/10
                             hover:-translate-y-2 transition duration-300"
                         >
-                            <div className="h-[180px] sm:h-[220px] overflow-hidden">
+                            {/* IMAGE (ORIENTATION SAFE) */}
+                            <div
+                                className="aspect-[4/3] sm:aspect-[16/10]
+                                flex items-center justify-center
+                                bg-black/20 overflow-hidden"
+                            >
                                 <img
                                     src={item.img}
                                     alt={item.title}
-                                    className="h-full w-full object-cover
-                                    group-hover:scale-105 transition duration-500"
+                                    className="max-h-full max-w-full
+                                    object-contain
+                                    group-hover:scale-105
+                                    transition duration-500"
                                 />
                             </div>
 
+                            {/* TEXT */}
                             <div className="p-5 sm:p-6">
                                 <p className="text-xs uppercase tracking-widest text-emerald-300 mb-2">
                                     {item.category}
@@ -194,7 +197,8 @@ export default function Gallery() {
 
                         <img
                             src={selectedItem.img}
-                            className="w-full h-[260px] sm:h-[420px] object-cover"
+                            className="w-full h-[260px] sm:h-[420px]
+                            object-contain bg-black"
                         />
 
                         <div className="p-6 sm:p-8">

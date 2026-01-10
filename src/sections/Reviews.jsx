@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-// import './App.css';
-/* RESPONSIVE WIDTH USING CSS CLAMP */
 const CARD_WIDTH = "clamp(280px, 80vw, 600px)";
 const GAP = 40;
 

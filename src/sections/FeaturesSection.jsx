@@ -1,5 +1,8 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import img11 from "../assets/images/img14.jpg";
+import img12 from "../assets/images/img6.jpg";
+import img13 from "../assets/images/img11.jpg";
 
 export default function FeaturesSection() {
     return (
@@ -8,7 +11,6 @@ export default function FeaturesSection() {
 
                 <div className="grid lg:grid-cols-2 gap-10 sm:gap-12 items-center">
 
-                    {/* LEFT CONTENT */}
                     <div className="space-y-8 sm:space-y-10">
                         <h2 className="text-[36px] sm:text-[56px] lg:text-[90px] font-semibold">
                             Features
@@ -19,16 +21,19 @@ export default function FeaturesSection() {
                                 num: "01",
                                 title: "PERSONALIZED LEARNING",
                                 desc: "Students practice at their own pace, filling gaps before accelerating learning.",
+                                img: img11,
                             },
                             {
                                 num: "02",
                                 title: "TRUSTED CONTENT",
                                 desc: "Expert-created content covering technology and real-world skills.",
+                                img: img12,
                             },
                             {
                                 num: "03",
                                 title: "TOOLS TO EMPOWER TEACHERS",
                                 desc: "Identify gaps, personalize instruction, and support every learner.",
+                                img: img13,
                             },
                         ].map((item) => (
                             <div key={item.num} className="flex gap-4 sm:gap-5 items-start">
@@ -53,21 +58,21 @@ export default function FeaturesSection() {
                         <div className="w-full relative grid grid-rows-3 gap-4 sm:gap-6">
                             <div className="flex justify-start">
                                 <img
-                                    src="https://picsum.photos/400?random=1"
+                                    src={img11}
                                     alt="img1"
                                     className="w-[260px] sm:w-[320px] h-[120px] sm:h-40 object-cover rounded-xl"
                                 />
                             </div>
                             <div className="flex justify-end">
                                 <img
-                                    src="https://picsum.photos/400?random=2"
+                                    src={img12}
                                     alt="img2"
                                     className="w-[260px] sm:w-[320px] h-[120px] sm:h-40 object-cover rounded-xl"
                                 />
                             </div>
                             <div className="flex justify-start">
                                 <img
-                                    src="https://picsum.photos/400?random=3"
+                                    src={img13}
                                     alt="img3"
                                     className="w-[260px] sm:w-[320px] h-[120px] sm:h-40 object-cover rounded-xl"
                                 />

@@ -9,10 +9,11 @@ import {
     Wifi,
     Brain,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { api } from "../services/api";
 
-const internships = [
+const fake_internships = [
     {
         title: "Frontend Development",
         icon: Code2,
@@ -62,20 +63,43 @@ const internships = [
 
 export default function Internships() {
     const gridRef = useRef(null);
+    const [internships, setInternships] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        gsap.fromTo(
-            gridRef.current.children,
-            { opacity: 0, y: 80 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                stagger: 0.15,
-                ease: "power4.out",
+        const fetchInternships = async () => {
+            try {
+                const data = await api.getAllInternships();
+                setInternships(data);
+            } catch (error) {
+                console.error("Failed to load internships", error);
+            } finally {
+                setLoading(false);
             }
-        );
+        };
+
+        fetchInternships();
     }, []);
+
+    useEffect(() => {
+        if (!loading && gridRef.current) {
+            gsap.fromTo(
+                gridRef.current.children,
+                { opacity: 0, y: 80 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    stagger: 0.15,
+                    ease: "power4.out",
+                }
+            );
+        }
+    }, [loading, internships]);
+
+    if (loading) {
+        return <div className="text-white text-center py-20">Loading internships...</div>;
+    }
 
     return (
         <section className="px-4 sm:px-6 py-16 sm:py-24 lg:py-28 max-w-7xl mx-auto overflow-x-hidden">
@@ -92,7 +116,8 @@ export default function Internships() {
                 className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
                 {internships.map((item, i) => {
-                    const Icon = item.icon;
+                    // Default icon if specific mapping isn't available or relevant
+                    const Icon = Layers;
 
                     return (
                         <div
@@ -102,8 +127,9 @@ export default function Internships() {
                         >
                             {/* IMAGE */}
                             <div className="h-[160px] sm:h-[200px] overflow-hidden">
+                                {/* Use a placeholder or item.image if available in API response */}
                                 <img
-                                    src={item.img}
+                                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900"
                                     alt={item.title}
                                     className="h-full w-full object-cover
                                     group-hover:scale-105 transition duration-500"
@@ -121,9 +147,13 @@ export default function Internships() {
                                     {item.title}
                                 </h3>
 
-                                <p className="text-white/60 text-sm">
-                                    Learn more →
+                                <p className="text-white/60 text-sm mb-4">
+                                    {item.description}
                                 </p>
+
+                                <div className="text-white/40 text-xs">
+                                    Duration: {item.durationInWeeks} weeks | Stipend: ${item.stipend}
+                                </div>
                             </div>
                         </div>
                     );

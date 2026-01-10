@@ -6,8 +6,36 @@ import {
     Linkedin,
     MessageCircle,
 } from "lucide-react";
+import { useState } from "react";
+import { api } from "../services/api";
 
 export default function ContactUs() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        college: "",
+        department: ""
+    });
+    const [submitting, setSubmitting] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        try {
+            await api.registerStudent(formData);
+            alert("Registration successful!");
+            setFormData({ name: "", email: "", college: "", department: "" });
+        } catch (error) {
+            alert("Registration failed. Please try again.");
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <div className="bg-black text-white overflow-x-hidden">
 
@@ -69,33 +97,47 @@ export default function ContactUs() {
                                     bg-emerald-400/5
                                     backdrop-blur-xl
                                     border-t md:border-t-0 md:border-l border-white/10">
-                        <form className="grid sm:grid-cols-2 gap-6 text-white">
+                        <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 gap-6 text-white">
 
-                            <Input label="First Name" />
-                            <Input label="Last Name" />
-                            <Input label="Email" type="email" />
-                            <Input label="Phone Number" type="tel" />
-
-                            <div className="sm:col-span-2">
-                                <label className="text-sm text-white/60">
-                                    Message
-                                </label>
-                                <textarea
-                                    rows="3"
-                                    className="w-full bg-transparent border-b border-white/30
-                                               outline-none py-2 resize-none text-white
-                                               focus:border-emerald-400 transition"
-                                    placeholder="Write your message..."
-                                />
-                            </div>
+                            <Input
+                                label="Name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                            <Input
+                                label="Email"
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                            <Input
+                                label="College"
+                                name="college"
+                                value={formData.college}
+                                onChange={handleChange}
+                                required
+                            />
+                            <Input
+                                label="Department"
+                                name="department"
+                                value={formData.department}
+                                onChange={handleChange}
+                                required
+                            />
 
                             <div className="sm:col-span-2 flex justify-start sm:justify-end mt-4">
                                 <button
                                     type="submit"
+                                    disabled={submitting}
                                     className="bg-emerald-400 text-black px-8 py-3
-                                               rounded-xl hover:bg-emerald-300 transition font-medium"
+                                               rounded-xl hover:bg-emerald-300 transition font-medium
+                                               disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Send Message
+                                    {submitting ? "Registering..." : "Register"}
                                 </button>
                             </div>
 
@@ -108,7 +150,7 @@ export default function ContactUs() {
     );
 }
 
-const Input = ({ label, type = "text" }) => (
+const Input = ({ label, type = "text", ...props }) => (
     <div>
         <label className="text-sm text-white/60">{label}</label>
         <input
@@ -116,6 +158,7 @@ const Input = ({ label, type = "text" }) => (
             className="w-full bg-transparent border-b border-white/30
                        outline-none py-2 text-white
                        focus:border-emerald-400 transition"
+            {...props}
         />
     </div>
 );
